@@ -31,4 +31,12 @@ void task2(List& list, const std::string& subscr, const std::string& bookName, c
 void task3(List& list);
 
 
+/**
+ * Определяет количество книг, заданного абонемента
+ * @param list          список, в котором всё происходит
+ * @param subscr        номер абонемента
+ */
+unsigned task4(const List& list, const std::string& subscr);
+
+
 #endif

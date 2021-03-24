@@ -80,3 +80,26 @@ void task3(List& list) {
     iter = iter->next;
   }
 }
+
+
+/**
+ * Определяет количество книг, заданного абонемента
+ * @param list          список, в котором всё происходит
+ * @param subscr        номер абонемента
+ */
+unsigned task4(const List& list, const std::string& subscr) {
+  unsigned countBooks = 0;
+  Node* iter = list.getLeftPtr();
+
+  while (iter != nullptr) {
+    std::string currentSubscr = iter->data->subscr;
+
+    if (currentSubscr == subscr) {
+      ++countBooks;
+    }
+
+    iter = iter->next;
+  }
+
+  return countBooks;
+}

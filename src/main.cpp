@@ -85,6 +85,14 @@ int main() {
       task3(list);
       cout << endl << "Список после удалений:" << endl << list << endl;
     }
+    else if (userChoice == 6) {
+      string subscr;
+
+      cout << endl << "Введите номер абонемента: ";
+      cin >> subscr;
+
+      cout << "Книг у читателя с абонементом " << subscr << ": " << task4(list, subscr) << endl;
+    }
 
     cout << endl << "Ваш выбор (1-7): ";
     cin >> userChoice;
