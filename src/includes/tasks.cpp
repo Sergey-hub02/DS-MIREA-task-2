@@ -27,5 +27,7 @@ void task1(List& list, Node* node) {
   }
 
   lastFound->next = node;
+
+  lastFound->next->prev = lastFound;
   ++list.size;
 }
