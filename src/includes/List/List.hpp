@@ -24,7 +24,15 @@ struct List {
    * Добавляет элемент в начало списка
    * @param node        добавляемый элемент
    */
-  void push(Node* node);
+  void pushFront(Node* node);
+
+
+  /**
+   * Вставляет элемент после элемента под индексом index
+   * @param index         индекс элемента, после которого нужно вставить элемент
+   * @param node          элемент, который нужно вставить
+   */
+  void insertAfter(const unsigned& index, Node* node);
 
 
   /**

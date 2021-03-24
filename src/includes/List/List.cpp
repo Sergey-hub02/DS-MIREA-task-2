@@ -24,7 +24,7 @@ List::~List() {
  * Добавляет элемент в начало списка
  * @param node        добавляемый элемент
  */
-void List::push(Node* node) {
+void List::pushFront(Node* node) {
   if (this->header == nullptr) {        // список пустой
     this->header = node;
     this->header->next = nullptr;
@@ -53,6 +53,16 @@ void List::push(Node* node) {
 
   ++this->size;
   return;
+}
+
+
+/**
+ * Вставляет элемент после элемента под индексом index
+ * @param index         индекс элемента, после которого нужно вставить элемент
+ * @param node          элемент, который нужно вставить
+ */
+void List::insertAfter(const unsigned& index, Node* node) {
+  ;
 }
 
 
@@ -86,7 +96,7 @@ void List::read(const unsigned& length) {
     InfoPart* nodeData = new InfoPart(subscr, bookName, lendDate, retDate, recDate);
     Node* node = new Node(nodeData);
 
-    this->push(node);
+    this->pushFront(node);
 
     std::cout << std::endl;
   }
@@ -99,7 +109,9 @@ void List::read(const unsigned& length) {
  */
 Node* List::find(const std::string& value) const {
   // поиск лучше осуществлять справа налево, т.к., если подумать, то в именно в таком порядке добавлялись элементы
-  Node* iter = this->getLastPtr();
+  // но в 1-м задании варианта нужно искать последнее вхождение
+  // поэтому всё выше сказанное не имеет смысла))
+  Node* iter = this->getFirstPtr();
 
   while (iter != nullptr) {
     InfoPart* currentData = iter->data;   // информационная часть текущего узла
@@ -113,7 +125,7 @@ Node* List::find(const std::string& value) const {
       break;
     }
 
-    iter = iter->prev;
+    iter = iter->next;
   }
 
   return iter;
