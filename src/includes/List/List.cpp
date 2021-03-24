@@ -94,13 +94,62 @@ void List::read(const unsigned& length) {
 
 
 /**
+ * Возвращает указатель на элемент, который содержит в себе значение value
+ * @param value         значение, по которому осуществляется поиск
+ */
+Node* List::find(const std::string& value) const {
+  // поиск лучше осуществлять справа налево, т.к., если подумать, то в именно в таком порядке добавлялись элементы
+  Node* iter = this->getLastPtr();
+
+  while (iter != nullptr) {
+    InfoPart* currentData = iter->data;   // информационная часть текущего узла
+
+    if (currentData->subscr == value ||
+        currentData->bookName == value ||
+        currentData->lendDate == value ||
+        currentData->retDate == value ||
+        currentData->recDate == value
+    ) {
+      break;
+    }
+
+    iter = iter->prev;
+  }
+
+  return iter;
+}
+
+
+/**
+ * Возвращает указатель на последний элемент списка (может понадобиться для итерации)
+ */
+Node* List::getLastPtr() const {
+  Node* iter = this->header;
+  while (iter->next != nullptr) {
+    iter = iter->next;
+  }
+
+  return iter;
+}
+
+
+/**
+ * Возвращает указатель на первый элемент списка (может понадобиться для итерации)
+ */
+Node* List::getFirstPtr() const {
+  Node* copyHeader = this->header;
+  return copyHeader;
+}
+
+
+/**
  * Выводит список на экран
  * @param out         поток вывода
  * @param list        выводимый список
  */
 std::ostream& operator<<(std::ostream& out, const List& list) {
   // Вывод списка слева направо
-  Node* iter = list.header;
+  Node* iter = list.getFirstPtr();
 
 
   while (iter->next != nullptr) {   // должен остановиться на самом последнем элементе
