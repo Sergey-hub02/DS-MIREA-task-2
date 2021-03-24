@@ -71,7 +71,8 @@ void task3(List& list) {
     std::string recDate = iter->data->recDate;
 
     if (retDate == recDate) {
-      list.remove(iter);
+      Node* iterCopy = iter;
+      list.remove(iterCopy);
     }
 
     iter = iter->next;

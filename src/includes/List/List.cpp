@@ -64,6 +64,7 @@ void List::remove(Node* node) {
   node = this->find(node);
 
   if (this->header == nullptr || node == nullptr) {   // список пуст, либо указанного элемента нет в списке
+    std::cout << "fuck" << std::endl;
     return;
   }
 
@@ -76,11 +77,17 @@ void List::remove(Node* node) {
     this->header->prev = nullptr;
 
     --this->size;
+    return;
   }
 
   Node* before = node->prev;      // указатель на элемент, предыдущий удаляемому
-  node->next->prev = before;
+
+  if (node->next != nullptr) {
+    node->next->prev = before;
+  }
+
   before->next = node->next;
+  std::cout << "alright" << std::endl;
 
   --this->size;
   delete node;
@@ -164,7 +171,13 @@ Node* List::find(Node* node) const {
   while (iter != nullptr) {
     InfoPart* currentData = iter->data;
 
-    if (currentData == toFind) {
+    if (
+      currentData->subscr == toFind->subscr &&
+      currentData->bookName == toFind->bookName &&
+      currentData->lendDate == toFind->lendDate &&
+      currentData->retDate == toFind->retDate &&
+      currentData->recDate == toFind->recDate
+    ) {
       break;
     }
 
