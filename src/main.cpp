@@ -82,15 +82,8 @@ int main() {
       cout << endl << "Список после изменений:" << endl << list << endl;
     }
     else if (userChoice == 5) {
-      InfoPart* ip = new InfoPart("3", "title#3", "after", "after", "after");
-      Node* node = new Node(ip);
-
-      list.remove(node);
-
+      task3(list);
       cout << endl << "Список после удалений:" << endl << list << endl;
-
-      delete ip;
-      delete node;
     }
 
     cout << endl << "Ваш выбор (1-7): ";

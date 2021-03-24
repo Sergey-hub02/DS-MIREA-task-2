@@ -64,17 +64,19 @@ void List::remove(Node* node) {
   node = this->find(node);
 
   if (this->header == nullptr || node == nullptr) {   // список пуст, либо указанного элемента нет в списке
-    std::cout << "fuck" << std::endl;
     return;
   }
 
-  if (node == this->header) {     // можно ли так сравнивать??
+  if (node == this->header) {
     Node* temp = this->header->next;
 
     delete this->header;
 
     this->header = temp;
-    this->header->prev = nullptr;
+
+    if (this->header != nullptr) {
+      this->header->prev = nullptr;
+    }
 
     --this->size;
     return;
@@ -87,7 +89,6 @@ void List::remove(Node* node) {
   }
 
   before->next = node->next;
-  std::cout << "alright" << std::endl;
 
   --this->size;
   delete node;
@@ -216,6 +217,11 @@ Node* List::getLeftPtr() const {
  * @param list        выводимый список
  */
 std::ostream& operator<<(std::ostream& out, const List& list) {
+  if (list.header == nullptr) {     // список пустой
+    out << std::endl;
+    return out;
+  }
+
   // Вывод списка слева направо
   Node* iter = list.getLeftPtr();
 
@@ -225,7 +231,7 @@ std::ostream& operator<<(std::ostream& out, const List& list) {
     iter = iter->next;
   }
 
-  out << iter->data << std::endl << std::endl;
+  out << iter->data << std::endl << std::endl << "Обратный порядок:" << std::endl;
 
   // Вывод списка справа налево
   while (iter != nullptr) {
