@@ -10,20 +10,11 @@ Node::Node() {
 }
 
 /**
- * Конструктор почти со всеми параметрами
- * @param subscr        номер абонемента
- * @param bookName      название книги
- * @param lendDate      дата выдачи
- * @param retDate        дата возврата
- * @param recDate       дата фактического возврата
+ * Конструктор, создающий узел, содержащий только информационную часть
+ * @param data        информационная часть узла
  */
-Node::Node(const std::string& subscr,
-           const std::string& bookName,
-           const std::string& lendDate,
-           const std::string& retDate,
-           const std::string& recDate
-) {
-  this->data     = new InfoPart(subscr, bookName, lendDate, retDate, recDate);
+Node::Node(InfoPart* data) {
+  this->data     = data;
   this->prev     = nullptr;
   this->next     = nullptr;
 }

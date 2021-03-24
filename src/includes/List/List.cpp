@@ -6,8 +6,6 @@
 List::List() {
   this->size = 0;
   this->header = nullptr;
-  this->header->next = nullptr;
-  this->header->prev = nullptr;
 }
 
 /**
@@ -31,28 +29,30 @@ void List::push(Node* node) {
     this->header = node;
     this->header->next = nullptr;
     this->header->prev = nullptr;
+
+    ++this->size;
+    return;
   }
 
   // список не пуст, поэтому применяем трюк Вирта
-  Node* temp = this->header;
+  InfoPart* temp = this->header->data;
 
-  this->header->subscr = node->subscr;
-  this->header->bookName = node->bookName;
-  this->header->lendDate = node->lendDate;
-  this->header->retDate = node->retDate;
-  this->header->recDate = node->recDate;
-
-  node->subscr = temp->subscr;
-  node->bookName = temp->bookName;
-  node->lendDate = temp->lendDate;
-  node->retDate = temp->retDate;
-  node->recDate = temp->recDate;
+  this->header->data = node->data;
+  node->data = temp;
 
   node->next = this->header->next;
-  this->header = node;
 
+  if (node->next != nullptr) {
+    node->next->prev = node;
+  }
+
+  this->header->next = node;
+
+  this->header->next->prev = this->header;
   this->header->prev = nullptr;
-  node->prev = this->header;
+
+  ++this->size;
+  return;
 }
 
 
@@ -80,14 +80,15 @@ void List::read(const unsigned& length) {
     std::cout << "Введите дату возврата: ";
     std::cin >> retDate;
 
-    std::cout << "Введите дату фактического возврата: ";
+    std::cout << "Ввдедите дату фактического возврата: ";
     std::cin >> recDate;
 
-    std::cout << std::endl;
-
-    Node* node = new Node(subscr, bookName, lendDate, retDate, recDate);
+    InfoPart* nodeData = new InfoPart(subscr, bookName, lendDate, retDate, recDate);
+    Node* node = new Node(nodeData);
 
     this->push(node);
+
+    std::cout << std::endl;
   }
 }
 
@@ -98,28 +99,23 @@ void List::read(const unsigned& length) {
  * @param list        выводимый список
  */
 std::ostream& operator<<(std::ostream& out, const List& list) {
+  // Вывод списка слева направо
   Node* iter = list.header;
 
-  out << "[ " << iter->subscr;
-  iter = iter->next;
 
-  while (iter != nullptr) {
-    out << ", " << iter->subscr;
+  while (iter->next != nullptr) {   // должен остановиться на самом последнем элементе
+    out << iter->data << std::endl << std::endl;
     iter = iter->next;
   }
 
-  out << " ]" << std::endl;
+  out << iter->data << std::endl << std::endl;
 
-  iter = iter->prev;
-  out << "[ " << iter->subscr;
-
-  iter = iter->prev;
+  // Вывод списка справа налево
   while (iter != nullptr) {
-    out << ", " << iter->subscr;
-    iter = iter->next;
+    out << iter->data << std::endl << std::endl;
+    iter = iter->prev;
   }
 
-  out << " ]";
-
+  out << std::endl;
   return out;
 }
