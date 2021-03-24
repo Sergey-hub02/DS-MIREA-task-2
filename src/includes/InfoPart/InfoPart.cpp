@@ -36,21 +36,6 @@ InfoPart::InfoPart(const std::string& subscr
 
 
 /**
- * Возвращает true, если информационные части одинаковы
- * @param other         сравниваемая информационная часть
- */
-bool InfoPart::operator==(InfoPart* other) const {
-  return (
-    this->subscr == other->subscr &&
-    this->bookName == other->bookName &&
-    this->lendDate == other->lendDate &&
-    this->retDate == other->retDate &&
-    this->recDate == other->recDate
-  );
-}
-
-
-/**
  * Выводит информационную часть узла
  * @param out         поток вывода
  * @param data        информационная часть узла

@@ -32,13 +32,6 @@ struct InfoPart {
            const std::string& retDate,
            const std::string& recDate
   );
-
-
-  /**
-   * Возвращает true, если информационные части одинаковы
-   * @param other         сравниваемая информационная часть
-   */
-  bool operator==(InfoPart* other) const;
 };
 
 
