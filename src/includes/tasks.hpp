@@ -13,4 +13,22 @@
 void task1(List& list, Node* node);
 
 
+/**
+ * Изменяет значение поля фактической даты возврата по указанной книге, указанного абонемента
+ *
+ * @param list        список, в котором происходит изменение
+ * @param subscr      номер абонемента
+ * @param bookName    название книги
+ * @param newRecDate  новая фактическая дата возврата
+ */
+void task2(List& list, const std::string& subscr, const std::string& bookName, const std::string& newRecDate);
+
+
+/**
+ * Удаляет узлы, в которых дата возврата и дата фактического возврата совпадают
+ * @param list        список, в котором происходит удаление
+ */
+void task3(List& list);
+
+
 #endif

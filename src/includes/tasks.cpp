@@ -31,3 +31,49 @@ void task1(List& list, Node* node) {
   lastFound->next->prev = lastFound;
   ++list.size;
 }
+
+
+/**
+ * Изменяет значение поля фактической даты возврата по указанной книге, указанного абонемента
+ *
+ * @param list        список, в котором происходит изменение
+ * @param subscr      номер абонемента
+ * @param bookName    название книги
+ * @param newRecDate  новая фактическая дата возврата
+ */
+void task2(List& list, const std::string& subscr, const std::string& bookName, const std::string& newRecDate) {
+  Node* iter = list.getLeftPtr();
+
+  while (iter != nullptr) {
+    InfoPart* currentData = iter->data;
+
+    if (currentData->subscr == subscr && currentData->bookName == bookName) {
+      currentData->recDate = newRecDate;
+      break;
+    }
+
+    iter = iter->next;
+  }
+
+  return;
+}
+
+
+/**
+ * Удаляет узлы, в которых дата возврата и дата фактического возврата совпадают
+ * @param list        список, в котором происходит удаление
+ */
+void task3(List& list) {
+  Node* iter = list.getLeftPtr();
+
+  while (iter != nullptr) {
+    std::string retDate = iter->data->retDate;
+    std::string recDate = iter->data->recDate;
+
+    if (retDate == recDate) {
+      list.remove(iter);
+    }
+
+    iter = iter->next;
+  }
+}

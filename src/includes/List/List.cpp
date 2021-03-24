@@ -24,7 +24,7 @@ List::~List() {
  * Добавляет элемент в начало списка
  * @param node        добавляемый элемент
  */
-void List::pushFront(Node* node) {
+void List::push(Node* node) {
   if (this->header == nullptr) {        // список пустой
     this->header = node;
     this->header->next = nullptr;
@@ -57,12 +57,33 @@ void List::pushFront(Node* node) {
 
 
 /**
- * Вставляет элемент после элемента под индексом index
- * @param index         индекс элемента, после которого нужно вставить элемент
- * @param node          элемент, который нужно вставить
+ * Удаляет указанный элемент из списка
+ * @param node        удаляемый элемент
  */
-void List::insertAfter(const unsigned& index, Node* node) {
-  ;
+void List::remove(Node* node) {
+  node = this->find(node);
+
+  if (this->header == nullptr || node == nullptr) {   // список пуст, либо указанного элемента нет в списке
+    return;
+  }
+
+  if (node == this->header) {     // можно ли так сравнивать??
+    Node* temp = this->header->next;
+
+    delete this->header;
+
+    this->header = temp;
+    this->header->prev = nullptr;
+
+    --this->size;
+  }
+
+  Node* before = node->prev;      // указатель на элемент, предыдущий удаляемому
+  node->next->prev = before;
+  before->next = node->next;
+
+  --this->size;
+  delete node;
 }
 
 
@@ -96,7 +117,7 @@ void List::read(const unsigned& length) {
     InfoPart* nodeData = new InfoPart(subscr, bookName, lendDate, retDate, recDate);
     Node* node = new Node(nodeData);
 
-    this->pushFront(node);
+    this->push(node);
 
     std::cout << std::endl;
   }
@@ -111,7 +132,7 @@ Node* List::find(const std::string& value) const {
   // поиск лучше осуществлять справа налево, т.к., если подумать, то в именно в таком порядке добавлялись элементы
   // но в 1-м задании варианта нужно искать последнее вхождение
   // поэтому всё выше сказанное не имеет смысла))
-  Node* iter = this->getFirstPtr();
+  Node* iter = this->getLeftPtr();
 
   while (iter != nullptr) {
     InfoPart* currentData = iter->data;   // информационная часть текущего узла
@@ -133,9 +154,31 @@ Node* List::find(const std::string& value) const {
 
 
 /**
- * Возвращает указатель на последний элемент списка (может понадобиться для итерации)
+ * Возвращает указатель на node, если такое узел есть в списке
+ * @param node        элемент, указатель которого нужно вернуть
  */
-Node* List::getLastPtr() const {
+Node* List::find(Node* node) const {
+  Node* iter = this->getRightPtr();
+  InfoPart* toFind = node->data;
+
+  while (iter != nullptr) {
+    InfoPart* currentData = iter->data;
+
+    if (currentData == toFind) {
+      break;
+    }
+
+    iter = iter->prev;
+  }
+
+  return iter;
+}
+
+
+/**
+ * Возвращает указатель на самый первый элемент списка (может понадобиться для итерации справа налево)
+ */
+Node* List::getRightPtr() const {
   Node* iter = this->header;
   while (iter->next != nullptr) {
     iter = iter->next;
@@ -146,9 +189,9 @@ Node* List::getLastPtr() const {
 
 
 /**
- * Возвращает указатель на первый элемент списка (может понадобиться для итерации)
+ * Возвращает указатель на последний элемент списка (может понадобиться для итерации слева направо)
  */
-Node* List::getFirstPtr() const {
+Node* List::getLeftPtr() const {
   Node* copyHeader = this->header;
   return copyHeader;
 }
@@ -161,7 +204,7 @@ Node* List::getFirstPtr() const {
  */
 std::ostream& operator<<(std::ostream& out, const List& list) {
   // Вывод списка слева направо
-  Node* iter = list.getFirstPtr();
+  Node* iter = list.getLeftPtr();
 
 
   while (iter->next != nullptr) {   // должен остановиться на самом последнем элементе

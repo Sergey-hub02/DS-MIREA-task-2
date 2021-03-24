@@ -63,6 +63,24 @@ int main() {
 
       cout << endl << "Список после добавления:" << endl << list << endl;
     }
+    else if (userChoice == 4) {
+      string subscr;
+      string bookName;
+      string newRecDate;
+
+      cout << endl << "Введите номер абонемента: ";
+      cin >> subscr;
+
+      cout << "Введите название книги: ";
+      cin >> bookName;
+
+      cout << "Введите новую фактическую дату возврата: ";
+      cin >> newRecDate;
+
+      task2(list, subscr, bookName, newRecDate);
+
+      cout << endl << "Список после изменений:" << endl << list << endl;
+    }
 
     cout << endl << "Ваш выбор: ";
     cin >> userChoice;
